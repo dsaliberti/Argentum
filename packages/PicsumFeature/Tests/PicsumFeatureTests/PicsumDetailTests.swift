@@ -21,7 +21,7 @@ struct PicsumDetailTests {
     await store.send(.task)
     
     await store.receive(.detailUpdated(.mock)) {
-      $0.loadedPhoto = .mock
+      $0.loadedPhotoItem = .mock
     }
   }
   

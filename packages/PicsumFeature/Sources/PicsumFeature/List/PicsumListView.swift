@@ -16,43 +16,19 @@ public struct PicsumListView: View {
       case 0:
         if let errorMessage = store.errorMessage {
           
-          Image(systemName: "exclamationmark.octagon.fill")
-            .resizable()
-            .renderingMode(.template)
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 40)
-            .foregroundStyle(.red.opacity(0.7))
-          
-          Text(errorMessage)
-            .foregroundStyle(.opacity(0.7))
-            
-          Button {
+          ErrorView(errorMessage: errorMessage) {
             store.send(.didTapReload)
-          } label: {
-            Text("Reload")
           }
-          .buttonStyle(BorderedButtonStyle())
-          
         } else {
           
           if store.isLoading {
-            ContentUnavailableView {
-              ProgressView()
-              Text("Loading...")
-            }
-            .foregroundStyle(.opacity(0.7))
-            
+            LoadingView()
           } else {
-            ContentUnavailableView {
-              Image(systemName: "questionmark.folder.fill")
-              Text("No photos found")
-            }
-            .foregroundStyle(.opacity(0.7))
+            EmptyListView()
           }
         }
       default:
         List(store.photosByAuthor.keys.sorted(), id: \.self) { author in
-          
           Section {
             ForEach(store.photosByAuthor[author] ?? [], id: \.id) { photo in
               HStack {
@@ -61,37 +37,12 @@ public struct PicsumListView: View {
                 } label: {
                   
                   HStack {
-                    AsyncImage(url: URL(string: photo.downloadUrl)) { phase in
-                      switch phase {
-                        
-                      case .success(let image):
-                        image
-                          .resizable()
-                          .aspectRatio(contentMode: .fill)
-                        
-                      case let .failure(error):
-                        //TODO: report issue, send failure to reducer
-                        let _ = print(error.localizedDescription)
-                        
-                        Image(systemName: "photo.badge.exclamationmark")
-                          .resizable()
-                          .aspectRatio(contentMode: .fit)
-                          .task {
-                            
-                          }
-                        
-                      default: ProgressView()
-                      }
-                    }
-                    .frame(width: 100, height: 100)
-                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ArgentumAsyncImageView(url: URL(string: photo.downloadUrl)!)
+                      .frame(width: 100, height: 100)
+                      .clipShape(RoundedRectangle(cornerRadius: 4))
                     
-                    VStack(alignment: .leading) {
-                      Text("Id: \(photo.id)")
-                      Text("width: \(photo.width)")
-                      Text("width: \(photo.width)")
-                    }
-                    .font(.caption)
+                    SummaryPhotoView(photo: photo)
+                      .truncationMode(.tail)
                     
                     Spacer()
                   }
@@ -101,26 +52,8 @@ public struct PicsumListView: View {
                 
                 Divider()
                 
-                // 􀋃
-                Button {
+                FavoriteToggleView(photo: photo) {
                   store.send(.toggleFavorite(photo))
-                } label: {
-                  
-                  let isFavorite = store.favorites.contains(photo.id)
-                  
-                  let imageName = isFavorite ? "star.fill" : "star"
-                  Image(systemName: imageName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 33)
-                    .foregroundStyle(
-                      isFavorite 
-                      ? .yellow
-                      : .black
-                    )
-                    .frame(maxHeight: .infinity)
-                    .padding(.leading, 16)
-                    .contentShape(Rectangle())
                 }
               }
             }
@@ -129,9 +62,11 @@ public struct PicsumListView: View {
           }
         }
         .buttonStyle(.plain)
+        .refreshable { 
+          store.send(.didPullToRefresh)
+        }
       }
     }
-    
     .task {
       await store.send(.task).finish()
     }
@@ -139,20 +74,19 @@ public struct PicsumListView: View {
       NavigationStack {
         PicsumDetailView(store: store)
       }
+      .presentationDetents([.medium, .large])
     }
-    
   }
 }
 
 #Preview {
   PicsumListView(
     store: StoreOf<PicsumListFeature>(
-      initialState: PicsumListFeature.State(), 
+      initialState: PicsumListFeature.State(),
       reducer: {
         PicsumListFeature()
       }
     )
   )
 }
-
 

@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import RestAPIClient
 import SharedModels
+import Foundation
 import Sharing
 
 @Reducer
@@ -38,6 +39,7 @@ public struct PicsumListFeature: Sendable {
     case didTapDetail(PicsumItem.ID)
     case detail(PresentationAction<PicsumDetailFeature.Action>)
     case didTapReload
+    case didPullToRefresh
   }
   
   public init() {}
@@ -52,6 +54,9 @@ public struct PicsumListFeature: Sendable {
         
       case .didTapReload:
         state.errorMessage = nil
+        return doFetch(&state)
+        
+      case .didPullToRefresh:
         return doFetch(&state)
         
       case let .photosUpdated(photos):
@@ -84,6 +89,7 @@ public struct PicsumListFeature: Sendable {
         state.isLoading = false
         state.errorMessage = errorMessage
         return .none
+        
       }
     }
     .ifLet(\.$detail, action: \.detail) {

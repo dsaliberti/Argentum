@@ -14,8 +14,9 @@ public struct PicsumDetailFeature: Sendable {
     @Shared(.inMemory("favorites")) var favorites: [PicsumItem.ID] = []
     
     var selectedPhotoId: PicsumItem.ID
-    var loadedPhoto: PicsumItem? = nil
+    var loadedPhotoItem: PicsumItem? = nil
     var errorMessage: String? = nil
+    var isLoading = false
     
     public init(selectedPhotoId: PicsumItem.ID) {
       self.selectedPhotoId = selectedPhotoId
@@ -27,6 +28,7 @@ public struct PicsumDetailFeature: Sendable {
     case detailUpdated(PicsumItem)
     case toggleFavorite(PicsumItem.ID)
     case detailUpdatedFailure(String)
+    case didTapReload
   }
   
   public init() {}
@@ -35,14 +37,7 @@ public struct PicsumDetailFeature: Sendable {
     Reduce { state, action in
       switch action {
       case .task:
-        
-        return .run { [selectedId = state.selectedPhotoId] send in
-          do {
-            try await send(.detailUpdated(restAPIClient.fetchPhotoDetail(selectedId)))
-          } catch {
-            await send(.detailUpdatedFailure("Something went wrong, please try again"))
-          }
-        }
+        return doFetch(&state)
         
       case let .toggleFavorite(photoId):
         
@@ -59,12 +54,30 @@ public struct PicsumDetailFeature: Sendable {
         return .none
         
       case let .detailUpdated(newValue):
-        state.loadedPhoto = newValue
+        state.isLoading = false
+        state.loadedPhotoItem = newValue
         return .none
       
       case let .detailUpdatedFailure(errorMessage):
+        state.isLoading = false
         state.errorMessage = errorMessage
         return .none
+        
+      case .didTapReload:
+        state.errorMessage = nil
+        return doFetch(&state)
+      }
+    }
+  }
+  
+  func doFetch(_ state: inout State) -> Effect<Action> {
+    state.isLoading = true
+    
+    return .run { [selectedId = state.selectedPhotoId] send in
+      do {
+        try await send(.detailUpdated(restAPIClient.fetchPhotoDetail(selectedId)))
+      } catch {
+        await send(.detailUpdatedFailure("Something went wrong, please try again"))
       }
     }
   }

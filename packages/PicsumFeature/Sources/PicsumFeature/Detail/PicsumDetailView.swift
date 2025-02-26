@@ -14,67 +14,17 @@ public struct PicsumDetailView: View {
     VStack {
       
       // 􀏅
-      if let loadedPhoto = store.loadedPhoto,
-         let url = URL(string: loadedPhoto.downloadUrl) {
+      if let loadedPhotoItem = store.loadedPhotoItem,
+         let url = URL(string: loadedPhotoItem.downloadUrl) {
         
-        AsyncImage(url: url) { phase in
-          switch phase {
-          case let .success(image):
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-            
-          case let .failure(error):
-            //TODO: report issue, send failure to reducer
-            let _ = print(error.localizedDescription)
-            
-            Image(systemName: "photo.badge.exclamationmark")
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-              .padding(24)
-              .background(.red.opacity(0.2))
-            
-          default: ProgressView()
-              .padding()
-              .background(.gray.opacity(0.1))
-            
-          }
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 4))
-        .frame(height: 250)
+        ArgentumAsyncImageView(url: url, height: 250)
         
-        VStack(alignment: .leading, spacing: 4) {
-          Text("**id:** \(loadedPhoto.id)")
-          Text("**author:** \(loadedPhoto.author)")
-          Text("**width:** \(loadedPhoto.width)")
-          Text("**height:** \(loadedPhoto.height)")
-          Text("**url:** \(loadedPhoto.url)")
-          Text("**downloadUrl:** \(loadedPhoto.downloadUrl)")
-        }
-        .padding(16)
+        SummaryPhotoView(photo: loadedPhotoItem)
+          .padding(16)
         
         // 􀋃
-        Button {
-          store.send(.toggleFavorite(loadedPhoto.id))
-        } label: {
-          
-          let isFavorite = store.favorites.contains(loadedPhoto.id)
-          
-          let imageName = isFavorite ? "star.fill" : "star"
-          Image(systemName: imageName)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 33)
-            .foregroundStyle(
-              isFavorite
-              ? .yellow
-              : .black
-            )
-          
-            .frame(maxHeight: .infinity)
-            .padding(.leading, 16)
-            .contentShape(Rectangle())
-          
+        FavoriteToggleView(photo: loadedPhotoItem) { 
+          store.send(.toggleFavorite(loadedPhotoItem.id))
         }
         
       } else {
@@ -85,8 +35,19 @@ public struct PicsumDetailView: View {
           .padding(24)
           .foregroundStyle(Color.gray)
         
-        ProgressView("loading details...")
-          .progressViewStyle(.automatic)
+        if store.isLoading {
+          ProgressView("loading details...")
+            .progressViewStyle(.automatic)
+        }
+        
+        if let errorMessage = store.errorMessage {
+          ErrorView(
+            errorMessage: errorMessage,
+            reload: {
+              store.send(.didTapReload)
+            }
+          )
+        }
       }
       
       Spacer()
@@ -109,8 +70,11 @@ public struct PicsumDetailView: View {
   .sheet(isPresented: $isPresented) { 
     PicsumDetailView(
       store: StoreOf<PicsumDetailFeature>(
-        initialState: PicsumDetailFeature.State(selectedPhotoId: "0"),
-        reducer: { PicsumDetailFeature() }
+        initialState: PicsumDetailFeature.State(
+          selectedPhotoId: "0"
+        ),
+        reducer: { PicsumDetailFeature()
+        }
       )
     )
   }
