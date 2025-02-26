@@ -1,5 +1,7 @@
 import SwiftUI
 
+/// A View to use as a placeholder when eventually there's no photo in the list
+/// i.e the fetch operation was successful and the payload has no photo
 public struct EmptyListView: View {
   public var body: some View {
     ContentUnavailableView {

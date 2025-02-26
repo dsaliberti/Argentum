@@ -1,8 +1,14 @@
 import SwiftUI
 
+/// A view that displays an error message with a reload button
 public struct ErrorView: View {
+  
+  /// The error message to be displayed
   let errorMessage: String
+  
+  /// A callback function triggered when the reload button is tapped
   let reload: () -> Void
+  
   public var body: some View {
     VStack {
       Image(systemName: "exclamationmark.octagon.fill")
@@ -26,4 +32,3 @@ public struct ErrorView: View {
 #Preview {
   ErrorView(errorMessage: "Oops") { }
 }
-

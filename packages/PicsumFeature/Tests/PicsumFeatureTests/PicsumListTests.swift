@@ -6,6 +6,7 @@ import ComposableArchitecture
 @MainActor
 struct PicsumListTests {
   
+  /// Test for fetching a list of photos and ensuring the correct state is updated
   @Test 
   func testTask_fetchPhotoList() async {
     let store = TestStore(
@@ -28,6 +29,7 @@ struct PicsumListTests {
     }
   }
   
+  /// Test for fetching a list of photos when there is an error in the API call
   @Test 
   func testTask_fetchPhotoListWithError() async {
     let store = TestStore(
@@ -54,6 +56,7 @@ struct PicsumListTests {
     }
   }
   
+  /// Test for toggling the favorite state of a photo and ensuring the correct state is updated
   @Test 
   func testTask_toggleFavorite() async {
     let store = TestStore(
@@ -72,6 +75,7 @@ struct PicsumListTests {
     }
   }
   
+  /// Test for tapping on a photo detail and ensuring the correct navigation or action is triggered
   @Test 
   func testTask_didTapDetail() async {
     let store = TestStore(

@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// A View that represents a loading state
 public struct LoadingView: View {
   public var body: some View {
     ContentUnavailableView {

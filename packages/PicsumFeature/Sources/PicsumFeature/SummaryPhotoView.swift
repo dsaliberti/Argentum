@@ -1,6 +1,8 @@
 import SharedModels
 import SwiftUI
 
+/// A View to show a stack of texts
+/// e.g like a visual table
 public struct SummaryPhotoView: View {
   public let photo: PicsumItem
   

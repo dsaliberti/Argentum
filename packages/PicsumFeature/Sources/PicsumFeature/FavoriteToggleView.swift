@@ -2,32 +2,37 @@ import SwiftUI
 import SharedModels
 import ComposableArchitecture
 
+/// A view that allows users to toggle the favorite status of a photo
 public struct FavoriteToggleView: View {
   
+  /// The photo associated with this favorite toggle
   public let photo: PicsumItem
+  
+  /// A closure that toggles the favorite state of the photo
   public let toggleFavorite: () -> Void
   
+  /// A shared in-memory store for tracking favorite photo IDs
   @Shared(.inMemory("favorites")) var favorites: [PicsumItem.ID] = []
   
   public var body: some View {
-    // 􀋃
     Button(action: toggleFavorite) {
       
+      // Check if the photo is in the favorites list
       let isFavorite = favorites.contains(photo.id)
       
+      // Choose the appropriate system image
       let imageName = isFavorite ? "star.fill" : "star"
+      
       Image(systemName: imageName)
         .resizable()
         .aspectRatio(contentMode: .fit)
-        .frame(width: 33)
         .foregroundStyle(
           isFavorite
-          ? .yellow
-          : .accentColor.opacity(0.9)
+          ? .yellow // Highlighted when marked as favorite
+          : .accentColor.opacity(0.9) // Default color
         )
         .frame(maxHeight: .infinity)
-        .padding(.leading, 16)
-        .contentShape(Rectangle())
+        .contentShape(Rectangle()) // Increases tappable area
     }
   }
 }
@@ -35,4 +40,3 @@ public struct FavoriteToggleView: View {
 #Preview {
   FavoriteToggleView(photo: .mock, toggleFavorite: {})
 }
-
