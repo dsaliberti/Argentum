@@ -1,4 +1,5 @@
 public struct PicsumItem: Hashable, Decodable, Sendable, Identifiable {
+  
   public typealias ID = String
   
   public let id: ID
@@ -7,7 +8,7 @@ public struct PicsumItem: Hashable, Decodable, Sendable, Identifiable {
   public let height: Int
   public let url: String
   public let downloadUrl: String
-  public var isFavorite: Bool? = nil
+  public var isFavorite: Bool?
   
   public init(
     id: String,

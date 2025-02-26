@@ -11,9 +11,45 @@ public struct PicsumListView: View {
   
   public var body: some View {
     VStack {
+      
       switch store.photos.count {
       case 0:
-        Text("Loading...")
+        if let errorMessage = store.errorMessage {
+          
+          Image(systemName: "exclamationmark.octagon.fill")
+            .resizable()
+            .renderingMode(.template)
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 40)
+            .foregroundStyle(.red.opacity(0.7))
+          
+          Text(errorMessage)
+            .foregroundStyle(.opacity(0.7))
+            
+          Button {
+            store.send(.didTapReload)
+          } label: {
+            Text("Reload")
+          }
+          .buttonStyle(BorderedButtonStyle())
+          
+        } else {
+          
+          if store.isLoading {
+            ContentUnavailableView {
+              ProgressView()
+              Text("Loading...")
+            }
+            .foregroundStyle(.opacity(0.7))
+            
+          } else {
+            ContentUnavailableView {
+              Image(systemName: "questionmark.folder.fill")
+              Text("No photos found")
+            }
+            .foregroundStyle(.opacity(0.7))
+          }
+        }
       default:
         List(store.photosByAuthor.keys.sorted(), id: \.self) { author in
           
@@ -104,6 +140,7 @@ public struct PicsumListView: View {
         PicsumDetailView(store: store)
       }
     }
+    
   }
 }
 

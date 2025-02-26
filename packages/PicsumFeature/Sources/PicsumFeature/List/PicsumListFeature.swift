@@ -23,6 +23,8 @@ public struct PicsumListFeature: Sendable {
     
     var isSelectedDetail = false
     
+    var errorMessage: String? = nil
+    var isLoading = false
     public init(photos: [PicsumItem] = []) {
       self.photos = photos
     }
@@ -31,27 +33,29 @@ public struct PicsumListFeature: Sendable {
   public enum Action: Hashable {
     case task
     case photosUpdated([PicsumItem])
+    case photosUpdatedFailure(String)
     case toggleFavorite(PicsumItem)
     case didTapDetail(PicsumItem.ID)
     case detail(PresentationAction<PicsumDetailFeature.Action>)
+    case didTapReload
   }
   
   public init() {}
   
   public var body: some Reducer<State, Action> {
+    
     Reduce { state, action in
       switch action {
       case .task:
-        return .run { send in
-          do {
-            try await send(.photosUpdated(restAPIClient.fetchPhotosList()))
-          } catch {
-            reportIssue("Failed to fetch photos list with error: \(error.localizedDescription)")
-            await send(.photosUpdated([]))
-          }
-        }
+        state.isLoading = true
+        return doFetch(&state)
+        
+      case .didTapReload:
+        state.errorMessage = nil
+        return doFetch(&state)
         
       case let .photosUpdated(photos):
+        state.isLoading = false
         state.photos = photos
         return .none
         
@@ -75,10 +79,30 @@ public struct PicsumListFeature: Sendable {
         
       case .detail: 
         return .none
+        
+      case let .photosUpdatedFailure(errorMessage):
+        state.isLoading = false
+        state.errorMessage = errorMessage
+        return .none
       }
     }
     .ifLet(\.$detail, action: \.detail) {
       PicsumDetailFeature()
+    }
+  }
+  
+  func doFetch(_ state: inout State) -> Effect<Action> {
+    state.isLoading = true
+    return .run { send in
+      do {
+        try await send(.photosUpdated(restAPIClient.fetchPhotosList()))
+      } catch {
+        await send(
+          .photosUpdatedFailure(
+            "Something went wrong, please try again"
+          )
+        )
+      }
     }
   }
 }

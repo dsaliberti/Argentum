@@ -15,6 +15,7 @@ public struct PicsumDetailFeature: Sendable {
     
     var selectedPhotoId: PicsumItem.ID
     var loadedPhoto: PicsumItem? = nil
+    var errorMessage: String? = nil
     
     public init(selectedPhotoId: PicsumItem.ID) {
       self.selectedPhotoId = selectedPhotoId
@@ -25,6 +26,7 @@ public struct PicsumDetailFeature: Sendable {
     case task
     case detailUpdated(PicsumItem)
     case toggleFavorite(PicsumItem.ID)
+    case detailUpdatedFailure(String)
   }
   
   public init() {}
@@ -35,7 +37,11 @@ public struct PicsumDetailFeature: Sendable {
       case .task:
         
         return .run { [selectedId = state.selectedPhotoId] send in
-          try? await send(.detailUpdated(restAPIClient.fetchPhotoDetail(selectedId)))
+          do {
+            try await send(.detailUpdated(restAPIClient.fetchPhotoDetail(selectedId)))
+          } catch {
+            await send(.detailUpdatedFailure("Something went wrong, please try again"))
+          }
         }
         
       case let .toggleFavorite(photoId):
@@ -54,6 +60,10 @@ public struct PicsumDetailFeature: Sendable {
         
       case let .detailUpdated(newValue):
         state.loadedPhoto = newValue
+        return .none
+      
+      case let .detailUpdatedFailure(errorMessage):
+        state.errorMessage = errorMessage
         return .none
       }
     }
