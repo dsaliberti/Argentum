@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PicsumFeature"
-               BuildableName = "PicsumFeature"
-               BlueprintName = "PicsumFeature"
+               BlueprintIdentifier = "SharedModels"
+               BuildableName = "SharedModels"
+               BlueprintName = "SharedModels"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,8 +30,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Tests/PicsumFeature.xctestplan"
-            default = "YES">
+            reference = "container:Tests/SharedModels.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>
@@ -39,9 +38,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PicsumFeatureTests"
-               BuildableName = "PicsumFeatureTests"
-               BlueprintName = "PicsumFeatureTests"
+               BlueprintIdentifier = "SharedModelsTests"
+               BuildableName = "SharedModelsTests"
+               BlueprintName = "SharedModelsTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -67,9 +66,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "PicsumFeature"
-            BuildableName = "PicsumFeature"
-            BlueprintName = "PicsumFeature"
+            BlueprintIdentifier = "SharedModels"
+            BuildableName = "SharedModels"
+            BlueprintName = "SharedModels"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

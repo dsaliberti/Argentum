@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "56CCE11A-6F93-4B05-BA4A-C4F48BA954E5",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "PicsumFeatureTests",
+        "name" : "PicsumFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}

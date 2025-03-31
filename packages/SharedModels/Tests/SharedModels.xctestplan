@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "FB79566B-8692-4800-B654-705DF1775D59",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SharedModelsTests",
+        "name" : "SharedModelsTests"
+      }
+    }
+  ],
+  "version" : 1
+}
