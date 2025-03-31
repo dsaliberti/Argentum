@@ -23,9 +23,6 @@ public struct PicsumItem: Hashable, Decodable, Sendable, Identifiable {
   /// The direct download URL for the image
   public let downloadUrl: String
   
-  /// A flag indicating whether the image is marked as a favorite
-  public var isFavorite: Bool?
-  
   /// Initializes a new `PicsumItem`
   /// - Parameters:
   ///   - id: The unique identifier of the image
@@ -34,15 +31,13 @@ public struct PicsumItem: Hashable, Decodable, Sendable, Identifiable {
   ///   - height: The height of the image
   ///   - url: The URL linking to the image's details page
   ///   - downloadUrl: The direct download URL for the image
-  ///   - isFavorite: A flag indicating whether the image is marked as a favorite (default is `false`)
   public init(
     id: String,
     author: String,
     width: Int,
     height: Int,
     url: String,
-    downloadUrl: String,
-    isFavorite: Bool = false
+    downloadUrl: String
   ) {
     self.id = id
     self.author = author
@@ -50,7 +45,6 @@ public struct PicsumItem: Hashable, Decodable, Sendable, Identifiable {
     self.height = height
     self.url = url
     self.downloadUrl = downloadUrl
-    self.isFavorite = isFavorite
   }
 }
 
