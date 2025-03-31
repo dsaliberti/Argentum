@@ -88,7 +88,7 @@ public struct PicsumListView: View {
       NavigationStack {
         PicsumDetailView(store: store)
       }
-      .presentationDetents([.medium, .large])
+      .presentationDetents([.large])
     }
   }
 }
