@@ -11,19 +11,8 @@
 		9FCD326F2D68D8860089905C /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 9FCD326E2D68D8860089905C /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		9FCD324F2D68D6B10089905C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9FCD32362D68D6B00089905C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9FCD323D2D68D6B00089905C;
-			remoteInfo = Argentum;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		9FCD323E2D68D6B00089905C /* Argentum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Argentum.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9FCD324E2D68D6B10089905C /* ArgentumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArgentumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -46,13 +35,6 @@
 			files = (
 				9F5FB9462D6B736400105CA8 /* PicsumFeature in Frameworks */,
 				9FCD326F2D68D8860089905C /* ComposableArchitecture in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9FCD324B2D68D6B10089905C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +62,6 @@
 			isa = PBXGroup;
 			children = (
 				9FCD323E2D68D6B00089905C /* Argentum.app */,
-				9FCD324E2D68D6B10089905C /* ArgentumTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,26 +93,6 @@
 			productReference = 9FCD323E2D68D6B00089905C /* Argentum.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9FCD324D2D68D6B10089905C /* ArgentumTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9FCD32652D68D6B10089905C /* Build configuration list for PBXNativeTarget "ArgentumTests" */;
-			buildPhases = (
-				9FCD324A2D68D6B10089905C /* Sources */,
-				9FCD324B2D68D6B10089905C /* Frameworks */,
-				9FCD324C2D68D6B10089905C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9FCD32502D68D6B10089905C /* PBXTargetDependency */,
-			);
-			name = ArgentumTests;
-			packageProductDependencies = (
-			);
-			productName = ArgentumTests;
-			productReference = 9FCD324E2D68D6B10089905C /* ArgentumTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -144,10 +105,6 @@
 				TargetAttributes = {
 					9FCD323D2D68D6B00089905C = {
 						CreatedOnToolsVersion = 16.2;
-					};
-					9FCD324D2D68D6B10089905C = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 9FCD323D2D68D6B00089905C;
 					};
 				};
 			};
@@ -170,20 +127,12 @@
 			projectRoot = "";
 			targets = (
 				9FCD323D2D68D6B00089905C /* Argentum */,
-				9FCD324D2D68D6B10089905C /* ArgentumTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9FCD323C2D68D6B00089905C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9FCD324C2D68D6B10089905C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -200,22 +149,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9FCD324A2D68D6B10089905C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9FCD32502D68D6B10089905C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9FCD323D2D68D6B00089905C /* Argentum */;
-			targetProxy = 9FCD324F2D68D6B10089905C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9FCD32602D68D6B10089905C /* Debug */ = {
@@ -399,44 +333,6 @@
 			};
 			name = Release;
 		};
-		9FCD32662D68D6B10089905C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4NT7KZ3C7R;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dsaliberti.ArgentumTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Argentum.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Argentum";
-			};
-			name = Debug;
-		};
-		9FCD32672D68D6B10089905C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4NT7KZ3C7R;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dsaliberti.ArgentumTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Argentum.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Argentum";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -454,15 +350,6 @@
 			buildConfigurations = (
 				9FCD32632D68D6B10089905C /* Debug */,
 				9FCD32642D68D6B10089905C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9FCD32652D68D6B10089905C /* Build configuration list for PBXNativeTarget "ArgentumTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9FCD32662D68D6B10089905C /* Debug */,
-				9FCD32672D68D6B10089905C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
