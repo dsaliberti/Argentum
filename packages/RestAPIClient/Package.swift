@@ -31,16 +31,6 @@ let package = Package(
           name: "SharedModels",
           package: "SharedModels"
         ),
-//        .product(
-//          name: "DependenciesMacros",
-//          package: "DependenciesMacros"
-//        ),
-      ]
-    ),
-    .testTarget(
-      name: "RestAPIClientTests",
-      dependencies: [
-        "RestAPIClient"
       ]
     ),
   ]
