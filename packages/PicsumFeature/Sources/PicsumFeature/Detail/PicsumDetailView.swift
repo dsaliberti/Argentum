@@ -22,18 +22,22 @@ public struct PicsumDetailView: View {
         
         /// Async image view that loads the image from the provided URL and resizes it to the provided `height`
         ArgentumAsyncImageView(url: url, height: 250)
+          .frame(maxWidth: .infinity)
+          .padding(.bottom, 16)
         
-        /// A custom view to display a summary of the photo
-        SummaryPhotoView(photo: loadedPhotoItem)
-          .padding(16)
-        
-        /// A toggle to mark the photo as a favorite
-        FavoriteToggleView(photo: loadedPhotoItem) { 
-          store.send(.toggleFavorite(loadedPhotoItem.id))
+        /// Distribute subviews horizontally
+        HStack(alignment: .top, spacing: 16) {
+          /// A toggle to mark the photo as a favorite
+          FavoriteToggleView(photo: loadedPhotoItem) { 
+            store.send(.toggleFavorite(loadedPhotoItem.id))
+          }
+          .frame(height: 65)
+          
+          /// A custom view to display a summary of the photo
+          SummaryPhotoView(photo: loadedPhotoItem)
+          
         }
-        .frame(width: .infinity)
-        .frame(maxHeight: 100)
-        .frame(minHeight: 50)
+        .padding(.horizontal)
         
       } else {
         /// Display a placeholder image when no photo is loaded
@@ -87,8 +91,7 @@ public struct PicsumDetailView: View {
         initialState: PicsumDetailFeature.State(
           selectedPhotoId: "0"
         ),
-        reducer: { PicsumDetailFeature()
-        }
+        reducer: { PicsumDetailFeature() }
       )
     )
   }
