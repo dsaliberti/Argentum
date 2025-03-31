@@ -19,10 +19,13 @@ struct PicsumDetailTests {
       }
     )
     
-    await store.send(.task)
+    await store.send(.task) {
+      $0.isLoading = true
+    }
     
     await store.receive(.detailUpdated(.mock)) {
       $0.loadedPhotoItem = .mock
+      $0.isLoading = false
     }
   }
   
