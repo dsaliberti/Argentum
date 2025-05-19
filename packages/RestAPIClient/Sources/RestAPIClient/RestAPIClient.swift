@@ -2,15 +2,9 @@ import ComposableArchitecture
 import DependenciesMacros
 import SharedModels
 
-/// A dependency client for fetching photos from a REST API
 @DependencyClient
 public struct RestAPIClient: Sendable {
-  
-  /// A function to fetch a list of photos asynchronously
   public var fetchPhotosList: @Sendable () async throws -> [PicsumItem]
-  
-  /// A function to fetch the details of a specific photo asynchronously
-  /// - Parameter id: The unique identifier of the photo
   public var fetchPhotoDetail: @Sendable (_ id: PicsumItem.ID) async throws -> PicsumItem
 }
 

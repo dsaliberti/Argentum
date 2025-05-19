@@ -17,6 +17,10 @@ let package = Package(
       url: "https://github.com/pointfreeco/swift-composable-architecture",
       .upToNextMajor(from: "1.17.1")
     ),
+    .package(
+      url: "https://github.com/onevcat/Kingfisher.git",
+      .upToNextMajor(from: "8.3.2")
+    ),
     .package(name: "RestAPIClient", path: "../RestAPIClient"),
     .package(name: "SharedModels", path: "../SharedModels")
   ],
@@ -27,6 +31,10 @@ let package = Package(
         .product(
           name: "ComposableArchitecture",
           package: "swift-composable-architecture"
+        ),
+        .product(
+          name: "Kingfisher",
+          package: "Kingfisher"
         ),
         .product(
           name: "RestAPIClient",

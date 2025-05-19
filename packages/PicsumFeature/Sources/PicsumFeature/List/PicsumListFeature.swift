@@ -8,19 +8,21 @@ import Sharing
 @Reducer
 public struct PicsumListFeature: Sendable {
   
-  /// The dependency for making API requests
   @Dependency(\.restAPIClient) var restAPIClient
   
-  /// The state representing the list of photos
   @ObservableState
   public struct State: Equatable {
     
-    /// A list of photos fetched from the API
     public var photos: [PicsumItem] = []
     
     /// A dictionary grouping photos by their author
     var photosByAuthor: [String: [PicsumItem]] {
       Dictionary(grouping: photos, by: \.author)
+    }
+    
+    /// An array of sorted authors names
+    var authorsNamesSorted: [String] {
+      photosByAuthor.keys.sorted()
     }
     
     /// A shared in-memory store for tracking favorite photo IDs
@@ -29,10 +31,8 @@ public struct PicsumListFeature: Sendable {
     /// A child domain ready to be eventually presented
     @Presents var detail: PicsumDetailFeature.State?
     
-    /// An optional error message in case of a failed fetch
     var errorMessage: String? = nil
     
-    /// Indicates if the photo list is currently being loaded
     var isLoading = false
     
     /// Initializes the state with an optional list of photos
@@ -42,7 +42,6 @@ public struct PicsumListFeature: Sendable {
     }
   }
   
-  /// The available actions for the list feature
   public enum Action: Hashable {
     case task
     case photosUpdated([PicsumItem])

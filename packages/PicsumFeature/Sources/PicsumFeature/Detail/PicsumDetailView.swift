@@ -17,23 +17,22 @@ public struct PicsumDetailView: View {
     VStack {
       
       /// If the photo item is loaded and the download URL is valid, display the photo
-      if let loadedPhotoItem = store.loadedPhotoItem,
-         let url = URL(string: loadedPhotoItem.downloadUrl) {
+      if let loadedPhotoItem = store.loadedPhotoItem {
         
-        /// Async image view that loads the image from the provided URL and resizes it to the provided `height`
-        ArgentumAsyncImageView(url: url, height: 250)
+        RemoteImageView(url: URL(string: loadedPhotoItem.downloadUrl))
           .frame(maxWidth: .infinity)
           .padding(.bottom, 16)
         
-        /// Distribute subviews horizontally
         HStack(alignment: .top, spacing: 16) {
-          /// A toggle to mark the photo as a favorite
-          FavoriteToggleView(photo: loadedPhotoItem) { 
+          
+          FavoriteToggleView(
+            photo: loadedPhotoItem,
+            isFavorite: store.favorites.contains(loadedPhotoItem.id)
+          ) { 
             store.send(.toggleFavorite(loadedPhotoItem.id))
           }
           .frame(height: 65)
           
-          /// A custom view to display a summary of the photo
           SummaryPhotoView(photo: loadedPhotoItem)
           
         }
@@ -48,7 +47,6 @@ public struct PicsumDetailView: View {
           .padding(24)
           .foregroundStyle(Color.gray)
         
-        /// Show a loading indicator if the photo details are still loading
         if store.isLoading {
           ProgressView("loading details...")
             .progressViewStyle(.automatic)
@@ -59,17 +57,14 @@ public struct PicsumDetailView: View {
           ErrorView(
             errorMessage: errorMessage,
             reload: {
-              /// Trigger a reload action when the user taps reload
               store.send(.didTapReload)
             }
           )
         }
       }
       
-      /// Spacer to push content to the top of the view
       Spacer()
     }
-    /// Asynchronously trigger the task to load the photo details when the view is loaded
     .task {
       await store.send(.task).finish()
     }

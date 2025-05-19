@@ -1,26 +1,12 @@
 
 /// A model representing an image item from the Picsum service
 public struct PicsumItem: Hashable, Decodable, Sendable, Identifiable {
-  
-  /// A type alias for the unique identifier of a `PicsumItem`
   public typealias ID = String
-  
-  /// The unique identifier of the image
   public let id: ID
-  
-  /// The name of the image's author
   public let author: String
-  
-  /// The width of the image in pixels
   public let width: Int
-  
-  /// The height of the image in pixels
   public let height: Int
-  
-  /// The URL linking to the image's details page
   public let url: String
-  
-  /// The direct download URL for the image
   public let downloadUrl: String
   
   /// Initializes a new `PicsumItem`

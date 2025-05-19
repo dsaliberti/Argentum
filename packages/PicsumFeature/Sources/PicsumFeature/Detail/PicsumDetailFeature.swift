@@ -7,26 +7,20 @@ import Sharing
 @Reducer
 public struct PicsumDetailFeature: Sendable {
   
-  /// The dependency for making API requests
   @Dependency(\.restAPIClient) var restAPIClient
   
-  /// The state representing the details of a selected photo
   @ObservableState
   public struct State: Equatable {
     
     /// A shared in-memory store for tracking favorite photo IDs
     @Shared(.inMemory("favorites")) var favorites: [PicsumItem.ID] = []
     
-    /// The ID of the selected photo
     var selectedPhotoId: PicsumItem.ID
     
-    /// The loaded photo details
     var loadedPhotoItem: PicsumItem? = nil
     
-    /// An optional error message in case of a failed fetch
     var errorMessage: String? = nil
     
-    /// Indicates if the photo details are currently being loaded
     var isLoading = false
     
     /// Initializes the state with a selected photo ID
@@ -36,7 +30,6 @@ public struct PicsumDetailFeature: Sendable {
     }
   }
   
-  /// The available actions for the list feature
   public enum Action: Hashable {
     case task
     case detailUpdated(PicsumItem)
